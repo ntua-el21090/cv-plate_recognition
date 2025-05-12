@@ -1,0 +1,10 @@
+venv/
+
+dataset/train/
+dataset/val/
+dataset/test/
+*.jpg
+*.png
+
+__pycache__/
+*.pyc
