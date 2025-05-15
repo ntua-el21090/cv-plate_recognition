@@ -1,10 +1,10 @@
 venv/
-
 dataset/train/
 dataset/val/
 dataset/test/
-*.jpg
-*.png
-
+yolo_dataset/
+runs/
 __pycache__/
 *.pyc
+*.cache
+.DS_Store

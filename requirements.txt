@@ -20,3 +20,8 @@ pytesseract>=0.3
 # Optional: For image transforms from albumentations
 imageio
 Pillow>=8.2
+
+requests>=2.25
+ultralytics>=8.0.0
+gitpython>=3.1
+thop>=0.1.1
