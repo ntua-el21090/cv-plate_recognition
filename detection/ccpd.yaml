@@ -1,8 +1,5 @@
-# YOLOv5 data config for CCPD license plate detection
+train: /content/drive/MyDrive/cv_plate_recognition/yolo_dataset/images/train
+val: /content/drive/MyDrive/cv_plate_recognition/ccpd_data/yolo_dataset/images/val
 
-path: ../yolo_dataset  # root dir for images and labels
-train: images/train     # subdir under 'path' for training images
-val: images/val         # subdir under 'path' for validation images
-
-nc: 1                   # number of classes
-names: ['license_plate']  # class name list
+nc: 1
+names: ['license_plate']
