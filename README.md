@@ -72,10 +72,8 @@ This ensures only valid `.jpg` images with matching `.txt` labels remain.
 ## Google Colab Setup for Training
 
 To train efficiently using GPU, we provide a Colab notebook located at:
-
-```
 https://colab.research.google.com/drive/1PXdbbHXBq3CkclZEWiC_nRwBm2KXbTkO?usp=drive_link
-```
+
 
 This notebook:
 
@@ -87,9 +85,8 @@ This notebook:
 ### A. Upload the dataset to Google Drive
 
 There is a google drive folder with the appropriate yolo_dataset available on: 
-```
 https://drive.google.com/drive/folders/1bfURR4furfjVZu4IqXHxOJQ41b3m0hhc?usp=drive_link
-```
+
 
 If you want to use your own generated yolo_dataset:
 
