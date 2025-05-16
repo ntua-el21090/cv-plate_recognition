@@ -1,5 +1,5 @@
-train: /content/drive/MyDrive/cv_plate_recognition/ccpd_data/yolo_dataset/images/train
-val: /content/drive/MyDrive/cv_plate_recognition/ccpd_data/yolo_dataset/images/val
+train: /content/drive/MyDrive/cv_plate_recognition/yolo_dataset/images/train
+val: /content/drive/MyDrive/cv_plate_recognition/yolo_dataset/images/val
 
 nc: 1
 names: ['license_plate']
