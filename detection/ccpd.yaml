@@ -2,4 +2,4 @@ train: /content/drive/MyDrive/cv-plate_recognition/ccpd_data/yolo_dataset/images
 val: /content/drive/MyDrive/cv-plate_recognition/ccpd_data/yolo_dataset/images/val
 
 nc: 1
-names: ['licen
+names: ['license_plate']
