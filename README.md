@@ -86,7 +86,10 @@ This notebook:
 
 ### A. Upload the dataset to Google Drive
 
-There is a google drive folder with the appropriate yolo_dataset available on: https://drive.google.com/drive/folders/1bfURR4furfjVZu4IqXHxOJQ41b3m0hhc?usp=drive_link
+There is a google drive folder with the appropriate yolo_dataset available on: 
+```
+https://drive.google.com/drive/folders/1bfURR4furfjVZu4IqXHxOJQ41b3m0hhc?usp=drive_link
+```
 
 If you want to use your own generated yolo_dataset:
 
@@ -109,4 +112,4 @@ yolo_dataset/
 
 ### B. Run the notebook
 
-Open `colab/train_yolov5_colab.ipynb` in Google Colab and run to complete training.
+Open `https://colab.research.google.com/drive/1PXdbbHXBq3CkclZEWiC_nRwBm2KXbTkO?usp=drive_link` in Google Colab and run to complete training.
