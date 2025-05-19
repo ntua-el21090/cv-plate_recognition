@@ -21,7 +21,7 @@ def encode_labels(labels, char_to_idx):
         lengths.append(len(encoded))
     return torch.tensor(targets, dtype=torch.long), torch.tensor(lengths, dtype=torch.long)
 
-def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"):
+def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json", image_root=""):
     with open(train_json_path) as f:
         train_data = json.load(f)
     with open(val_json_path) as f:
@@ -38,8 +38,8 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
     idx_to_char = {i: c for c, i in enumerate(char_set)}
     num_classes = len(char_set) + 1  # +1 for CTC blank
 
-    train_dataset = PlateDataset(train_json_path)
-    val_dataset = PlateDataset(val_json_path)
+    train_dataset = PlateDataset(train_json_path, image_root=image_root)
+    val_dataset = PlateDataset(val_json_path, image_root=image_root)
 
     train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True, collate_fn=collate_fn)
     val_loader = DataLoader(val_dataset, batch_size=8, shuffle=False, collate_fn=collate_fn)
