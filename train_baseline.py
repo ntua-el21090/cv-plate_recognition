@@ -58,8 +58,9 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
             print("images shape:", images.shape)
             try:
                 logits = model(images)
-                if logits is None:
-                    print("Model returned None logits.")
+                print("logits type:", type(logits))
+                if logits is None or not isinstance(logits, torch.Tensor):
+                    print("Model returned invalid logits:", logits)
                     continue
             except Exception as e:
                 print("Model call failed:", e)
