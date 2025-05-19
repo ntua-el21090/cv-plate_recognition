@@ -15,13 +15,12 @@ class CRNN(nn.Module):
         self.fc = nn.Linear(512, n_classes)
 
     def forward(self, x):
-        x = self.cnn(x)
-        print("After CNN:", x.shape)  
+        x = self.cnn(x)  
 
         b, c, h, w = x.size()
         x = x.permute(0, 3, 1, 2).contiguous()
         x = x.view(b, w, c * h)
-        print("After reshape for RNN:", x.shape)  
+         
 
         try:
             x, _ = self.rnn(x)
@@ -29,4 +28,4 @@ class CRNN(nn.Module):
             print("RNN failed:", e)
             return None
         x = self.fc(x)
-        return x.per
+        return x.permute(1, 0, 2)

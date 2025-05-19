@@ -57,10 +57,7 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
         model.train()
         total_loss = 0
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}"):
-            if images is None:
-                print("Batch contains None images!")
-                continue
-
+            
             images = images.to(device)
             try:
                 logits = model(images)
