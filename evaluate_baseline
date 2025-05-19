@@ -52,6 +52,7 @@ def evaluate(model_path, json_path, image_root):
             images = images.to(device)
             logits = model(images)
             decoded = greedy_decode(logits)
+            print(f"GT: {labels[0]}, Pred: {decoded[0]}")
             if decoded[0] == labels[0]:
                 correct += 1
             total += 1
