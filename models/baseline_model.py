@@ -23,6 +23,10 @@ class CRNN(nn.Module):
         x = x.view(b, w, c * h)
         print("After reshape for RNN:", x.shape)  
 
-        x, _ = self.rnn(x)
+        try:
+            x, _ = self.rnn(x)
+        except Exception as e:
+            print("RNN failed:", e)
+            return None
         x = self.fc(x)
         return x.permute(1, 0, 2) 
