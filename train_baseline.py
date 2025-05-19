@@ -66,18 +66,4 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
             except Exception as e:
                 print("Model call failed:", e)
                 continue
-            targets, target_lengths = encode_labels(labels, char_to_idx)
-            input_lengths = torch.full(size=(logits.size(1),), fill_value=logits.size(0), dtype=torch.long)
-
-            loss = criterion(logits, targets, input_lengths, target_lengths)
-
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-            total_loss += loss.item()
-
-        print(f"Epoch {epoch+1} Loss: {total_loss / len(train_loader):.4f}")
-        torch.save(model.state_dict(), f"crnn_epoch{epoch+1}.pth")
-
-if __name__ == "__main__":
-    train()
+            targets, target_lengths = encode_labels(labels, ch
