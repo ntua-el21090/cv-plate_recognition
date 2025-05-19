@@ -52,7 +52,15 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
         model.train()
         total_loss = 0
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}"):
-            logits = model(images)
+            if images is None:
+                print("Batch contains None images!")
+            else:
+                print("images shape:", images.shape)
+            try:
+                logits = model(images)
+            except Exception as e:
+                print("Model call failed:", e)
+                continue
             targets, target_lengths = encode_labels(labels, char_to_idx)
             input_lengths = torch.full(size=(logits.size(1),), fill_value=logits.size(0), dtype=torch.long)
 
