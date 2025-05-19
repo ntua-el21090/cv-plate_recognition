@@ -7,7 +7,7 @@ import torchvision.models as models
 
 class CRNN(nn.Module):
     def __init__(self, n_classes):
-        super(CRNN, self).__init__()
+        super().__init__()
         resnet = models.resnet18(pretrained=True)
         self.cnn = nn.Sequential(*list(resnet.children())[:-3])  
 
