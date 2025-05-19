@@ -56,7 +56,14 @@ class CCPDRecognitionDataset(Dataset):
         with open(annotation_file, 'r') as f:
             raw_data = json.load(f)
             self.data = [entry for entry in tqdm(raw_data, desc="Loading recognition data")]
-        self.transform = transform if transform else get_transform(128)
+        if transform is not None:
+            self.transform = transform
+        else:
+            self.transform = A.Compose([
+               A.Resize(32, 128),
+               A.Normalize(mean=(0.5,), std=(0.5,)),
+                ToTensorV2()
+        ])
 
     def __len__(self):
         return len(self.data)
@@ -71,6 +78,9 @@ class CCPDRecognitionDataset(Dataset):
         cropped = cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)
 
         if self.transform:
-            cropped = self.transform(image=cropped)['image']
+            if not callable(self.transform):
+                raise TypeError(f"Transform is not callable, got type: {type(self.transform)}")
+            transformed = self.transform(image=cropped.astype('float32'))
+            cropped = transformed['image']
 
         return cropped, plate
