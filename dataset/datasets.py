@@ -4,8 +4,8 @@ import cv2
 import torch
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
+import os
 
-# Shared image transform
 def get_transform(img_size=640):
     return A.Compose([
         A.Resize(img_size, img_size),
@@ -51,7 +51,7 @@ class CCPDRecognitionDataset(Dataset):
     """
     For plate recognition: returns cropped plate + text
     """
-    def __init__(self, annotation_file, transform=None):
+    def __init__(self, annotation_file, transform=None, image_root=""):
         from tqdm import tqdm
         with open(annotation_file, 'r') as f:
             raw_data = json.load(f)
@@ -64,13 +64,17 @@ class CCPDRecognitionDataset(Dataset):
                A.Normalize(mean=(0.5,), std=(0.5,)),
                 ToTensorV2()
         ])
+        self.image_root = image_root
 
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
         entry = self.data[idx]
-        img = cv2.imread(entry['path'])
+        image_path = os.path.join(self.image_root, entry['filename'])
+        img = cv2.imread(image_path)
+        if img is None:
+            raise FileNotFoundError(f"Could not read image at {image_path}")
         x1, y1, x2, y2 = entry['bbox']
         plate = entry['plate']
 

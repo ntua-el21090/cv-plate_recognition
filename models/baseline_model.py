@@ -21,8 +21,4 @@ class CRNN(nn.Module):
         b, c, h, w = x.size()
         x = x.permute(0, 3, 1, 2).contiguous()
         x = x.view(b, w, c * h)
-        print("After reshape for RNN:", x.shape)  # Debug: [B, W, C*H]
-
-        x, _ = self.rnn(x)
-        x = self.fc(x)
-        return x.permute(1, 0, 2)  # [T, B, C] for CTC loss
+        print("After reshape for RNN:", x.shape)  # 
