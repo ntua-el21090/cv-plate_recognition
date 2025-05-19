@@ -55,6 +55,7 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
             if images is None:
                 print("Batch contains None images!")
                 continue
+
             print("images shape:", images.shape)
             try:
                 logits = model(images)
