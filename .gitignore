@@ -4,7 +4,6 @@ dataset/val/
 dataset/test/
 yolo_dataset/
 test_crnn.py
-train_baseline.py
 runs/
 __pycache__/
 *.pyc
