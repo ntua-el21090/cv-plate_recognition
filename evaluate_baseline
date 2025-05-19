@@ -60,7 +60,7 @@ def evaluate(model_path, json_path, image_root):
 
 if __name__ == "__main__":
     evaluate(
-        model_path="crnn_epoch3.pth",
+        model_path="/content/drive/MyDrive/cv_plate_recognition/crnn_best.pth",
         json_path="dataset/val.json",
         image_root="/content/drive/MyDrive/cv_plate_recognition/ccpd_dataset"
     )
