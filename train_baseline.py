@@ -61,6 +61,9 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
             except Exception as e:
                 print("Model call failed:", e)
                 continue
+            if logits is None:
+                print("Model returned None logits.")
+                continue
             targets, target_lengths = encode_labels(labels, char_to_idx)
             input_lengths = torch.full(size=(logits.size(1),), fill_value=logits.size(0), dtype=torch.long)
 
