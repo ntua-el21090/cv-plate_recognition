@@ -71,7 +71,8 @@ class CCPDRecognitionDataset(Dataset):
 
     def __getitem__(self, idx):
         entry = self.data[idx]
-        image_path = os.path.join(self.image_root, os.path.basename(entry['path']))
+        relative_path = os.path.relpath(entry['path'], start="dataset")
+        image_path = os.path.join(self.image_root, relative_path)
         if not os.path.isfile(image_path):
             raise FileNotFoundError(f"Image path does not exist: {image_path}")
         img = cv2.imread(image_path)
