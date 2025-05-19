@@ -46,19 +46,21 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
 
     train_loader = DataLoader(
         train_dataset,
-        batch_size=16,
+        batch_size=32,
         shuffle=True,
         collate_fn=collate_fn,
         num_workers=2,
-        pin_memory=True
+        pin_memory=True,
+        persistent_workers=True
     )
     val_loader = DataLoader(
         val_dataset,
-        batch_size=16,
+        batch_size=32,
         shuffle=False,
         collate_fn=collate_fn,
         num_workers=2,
-        pin_memory=True
+        pin_memory=True,
+        persistent_workers=True
     )
 
     model = CRNN(n_classes=num_classes).to(device)
