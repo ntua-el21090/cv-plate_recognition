@@ -29,4 +29,4 @@ class CRNN(nn.Module):
             print("RNN failed:", e)
             return None
         x = self.fc(x)
-        return x.permute(1, 0, 2)
+        return x.per

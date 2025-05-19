@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
+from torch.cuda.amp import autocast, GradScaler
 from models.baseline_model import CRNN
 from dataset.datasets import CCPDRecognitionDataset as PlateDataset
 from config import *
@@ -22,6 +23,8 @@ def encode_labels(labels, char_to_idx):
     return torch.tensor(targets, dtype=torch.long), torch.tensor(lengths, dtype=torch.long)
 
 def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json", image_root=""):
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     with open(train_json_path) as f:
         train_data = json.load(f)
     with open(val_json_path) as f:
@@ -44,9 +47,11 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
     train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True, collate_fn=collate_fn)
     val_loader = DataLoader(val_dataset, batch_size=8, shuffle=False, collate_fn=collate_fn)
 
-    model = CRNN(n_classes=num_classes)
+    model = CRNN(n_classes=num_classes).to(device)
     criterion = nn.CTCLoss(blank=num_classes - 1, zero_infinity=True)
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
+
+    scaler = GradScaler()
 
     for epoch in range(3):
         model.train()
@@ -56,10 +61,10 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
                 print("Batch contains None images!")
                 continue
 
-            print("images shape:", images.shape)
+            images = images.to(device)
             try:
                 logits = model(images)
-                print("logits type:", type(logits))
+                # print("logits type:", type(logits))
                 if logits is None or not isinstance(logits, torch.Tensor):
                     print("Model returned invalid logits:", logits)
                     continue
@@ -69,11 +74,13 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
             targets, target_lengths = encode_labels(labels, char_to_idx)
             input_lengths = torch.full(size=(logits.size(1),), fill_value=logits.size(0), dtype=torch.long)
 
-            loss = criterion(logits, targets, input_lengths, target_lengths)
+            with autocast():
+                loss = criterion(logits, targets, input_lengths, target_lengths)
 
             optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
             total_loss += loss.item()
 
         print(f"Epoch {epoch+1} Loss: {total_loss / len(train_loader):.4f}")
