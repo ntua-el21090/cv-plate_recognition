@@ -46,7 +46,7 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
 
     train_loader = DataLoader(
         train_dataset,
-        batch_size=32,
+        batch_size=16,
         shuffle=True,
         collate_fn=collate_fn,
         num_workers=2,
@@ -55,7 +55,7 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
     )
     val_loader = DataLoader(
         val_dataset,
-        batch_size=32,
+        batch_size=16,
         shuffle=False,
         collate_fn=collate_fn,
         num_workers=2,
@@ -71,7 +71,7 @@ def train(train_json_path="dataset/train.json", val_json_path="dataset/val.json"
 
     best_val_loss = float('inf')
 
-    for epoch in range(3):
+    for epoch in range(30):
         model.train()
         total_loss = 0
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}"):
