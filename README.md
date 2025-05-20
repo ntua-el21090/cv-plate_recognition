@@ -60,7 +60,7 @@ This notebook:
 
 ### A. Upload the dataset to Google Drive
 
-There is a google drive folder with the appropriate yolo_dataset available on: 
+There is a google drive folder with the appropriate ccpd_dataset and yolo_dataset available on: 
 https://drive.google.com/drive/folders/1bfURR4furfjVZu4IqXHxOJQ41b3m0hhc?usp=drive_link
 
 
@@ -82,6 +82,12 @@ yolo_dataset/
 ├── labels/val/
 ```
 
+```
+ccpd_dataset/
+├── train/
+├── val/
+├── test/
+```
 ## Baseline Training and Evaluation (Phase 2)
 
 ### Train the Baseline CRNN Model
