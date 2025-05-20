@@ -45,6 +45,43 @@ This will create:
 - `dataset/val.json`
 - `dataset/test.json`
 
+## Google Colab Setup for Training
+
+To train efficiently using GPU, we provide a Colab notebook located at:
+https://colab.research.google.com/drive/1PXdbbHXBq3CkclZEWiC_nRwBm2KXbTkO?usp=drive_link
+
+
+This notebook:
+
+- Mounts Google Drive
+- Clones this GitHub repository
+- Installs dependencies
+- Trains Baseline model and YOLOv5 using the dataset stored on Drive
+
+### A. Upload the dataset to Google Drive
+
+There is a google drive folder with the appropriate yolo_dataset available on: 
+https://drive.google.com/drive/folders/1bfURR4furfjVZu4IqXHxOJQ41b3m0hhc?usp=drive_link
+
+
+If you want to use your own generated yolo_dataset:
+
+Upload the entire `yolo_dataset/` folder to:
+
+```
+/MyDrive/cv_plate_recognition/ccpd_data/yolo_dataset/
+```
+
+It should contain:
+
+```
+yolo_dataset/
+├── images/train/
+├── images/val/
+├── labels/train/
+├── labels/val/
+```
+
 ## Baseline Training and Evaluation (Phase 2)
 
 ### Train the Baseline CRNN Model
@@ -85,76 +122,29 @@ This will output the number of license plates predicted with 100% character accu
 
 ---
 
-## Google Colab Setup for Training
 
-To train efficiently using GPU, we provide a Colab notebook located at:
-https://colab.research.google.com/drive/1PXdbbHXBq3CkclZEWiC_nRwBm2KXbTkO?usp=drive_link
+## YOLOv5 Training Setup (Phase 3)
 
+### Convert Annotations to YOLO Format
 
-This notebook:
+8. Convert parsed CCPD data to YOLOv5 format:
 
-- Mounts Google Drive
-- Clones this GitHub repository
-- Installs dependencies
-- Trains YOLOv5 using the dataset stored on Drive
-
-### A. Upload the dataset to Google Drive
-
-There is a google drive folder with the appropriate yolo_dataset available on: 
-https://drive.google.com/drive/folders/1bfURR4furfjVZu4IqXHxOJQ41b3m0hhc?usp=drive_link
-
-
-If you want to use your own generated yolo_dataset:
-
-Upload the entire `yolo_dataset/` folder to:
-
-```
-/MyDrive/cv_plate_recognition/ccpd_data/yolo_dataset/
+```bash
+python detection/yolo_label_converter.py
 ```
 
-It should contain:
+This creates YOLO-style `images/` and `labels/` folders under `yolo_dataset/`.
 
+### Clean the Dataset
+
+9. Remove image-label mismatches and invalid files:
+
+```bash
+python detection/cleanup.py
 ```
-yolo_dataset/
-├── images/train/
-├── images/val/
-├── labels/train/
-├── labels/val/
-```
 
+This ensures only valid `.jpg` images with matching `.txt` labels remain.
 
-### B. Run the notebook
+### Run the notebook
 
 Open `https://colab.research.google.com/drive/1PXdbbHXBq3CkclZEWiC_nRwBm2KXbTkO?usp=drive_link` in Google Colab and run to complete training.
-
-## Baseline Training and Evaluation (Phase 3)
-
-To train the CRNN baseline model using GPU, we provide a Colab notebook located at:
-https://colab.research.google.com/drive/1moVS4SVeOnNlUXPmwc2auOvkro9rlXn9#scrollTo=b3WjeMtn1GjC
-
-This notebook:
-
-- Mounts Google Drive
-- Clones this GitHub repository
-- Installs dependencies
-- Trains the CRNN model using the CCPD dataset stored on Drive
-- Evaluates the trained model on plate-level accuracy
-
-### A. Upload the dataset to Google Drive or use the given Google Drive
-
-Upload your parsed CCPD dataset (after `parse_ccpd.py`) with the following structure:
-
-```
-/MyDrive/cv_plate_recognition/ccpd_dataset/
-├── train/
-├── val/
-├── test/
-```
-!The google drive folder of the project already contains these files
-
-### B. Run the notebook
-
-Open:
-https://colab.research.google.com/drive/1moVS4SVeOnNlUXPmwc2auOvkro9rlXn9#scrollTo=b3WjeMtn1GjC
-
-and execute the cells to train and evaluate your baseline model.
