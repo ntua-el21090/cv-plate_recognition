@@ -1,0 +1,41 @@
+train_images: "cropped_plates_detected/train"
+train_labels: "cropped_plates_detected/train/labels_text"
+val_images:   "cropped_plates_detected/val"
+val_labels:   "cropped_plates_detected/val/labels_text"
+test_images: "cropped_plates_detected/test"
+test_labels: "cropped_plates_detected/test/labels_text"
+
+
+recognition_image_size: [32, 256]
+seq_length: 8
+
+batch_size: 32
+epochs:     15
+lr:         0.0005
+
+pct_start:       0.3
+div_factor:      10.0
+final_div:       10000.0
+anneal_strategy: "cos"
+
+log_every_n_steps: 50
+
+mean:
+  - 0.485
+  - 0.456
+  - 0.406
+std:
+  - 0.229
+  - 0.224
+  - 0.225
+
+device:    "mps"
+save_path: "PDLPR/checkpoints/best_model.pth"
+
+
+aug_enable: true
+aug_brightness_contrast: true
+aug_random_rotation: true
+aug_random_perspective: true
+
+num_workers: 6
