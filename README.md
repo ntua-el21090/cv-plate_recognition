@@ -93,35 +93,36 @@ python train.py \
 
 ## Plate Cropping
 
-### Crop Detected Plates and Ground Truth
+### 1. Crop Detected Plates and Ground Truth
 run this for train,test,val:
 
 ```bash
 python yolov5/detect.py \
-  --weights yolov5/runs/train/ccpd-plates3/weights/best.pt \
-  --source ccpd_dataset/test \
+  --weights yolov5/runs/*test or train or val*/ccpd-plates3/weights/best.pt \
+  --source ccpd_dataset/*test or train or val* \
   --img 640 \
   --device mps \
   --save-txt --save-conf \
   --nosave \
   --project runs/detect \
-  --name ccpd_test_detect \
+  --name ccpd_*test or train or val*_detect \
   --exist-ok
 ```
+And after, run this also for train,test,val:
 
 ```bash
 python crop_plates.py \
   --method detected \
-  --input ccpd_dataset/test \
-  --labels runs/detect/ccpd_test_detect/labels \
-  --output cropped_plates_detected/test           
+  --input ccpd_dataset/*test or train or val* \
+  --labels runs/detect/ccpd_*test or train or val*_detect/labels \
+  --output cropped_plates_detected/*test or train or val*          
 
 ```
 
 This will generate cropped plates and label files in:
 
 ```
-cropped_plates/
+cropped_plates_detected/
 ├── train/
 ├── val/
 ├── test/
@@ -139,30 +140,6 @@ This creates cropped plate images and `.txt` labels for each set (train, val, te
 
 ---
 
-## Dataset Completion and Failure Recovery
-
-### Fix Missing Detections and Prepare Full Datasets
-
-```bash
-python dataset_tools.py \
-    --prepare_failed_dataset \
-    --failures_txt yolo_no_detections.txt \
-    --full_labels_dir yolo_dataset/labels \
-    --output_dir failed_yolo_labels
-```
-
-```bash
-python dataset_tools.py \
-    --write_failure_yaml \
-    --failures_txt yolo_no_detections.txt \
-    --yaml_output yolo_no_detections_dataset.yaml
-```
-This script:
-- Identifies images that YOLO failed to detect.
-- Fixes missing crops by using backup annotations.
-- Completes the dataset so it's ready for recognition.
-
----
 
 ## Recognition Models
 
@@ -237,7 +214,7 @@ python evaluate_test.py \
 ├── utils/                    # Utility and data tools
 ├── dataset/                  # Raw CCPD images
 ├── yolo_dataset/             # Converted YOLO format data
-├── cropped_plates/           # Cropped license plates
+├── cropped_plates_detected/  # Cropped license plates
 ├── config.yaml
 ├── build_yolo_dataset.py
 ├── build_recognition_dataset.py
@@ -257,3 +234,11 @@ python evaluate_test.py \
 
 - The YOLOv5 and CRNN training can be performed locally or using Google Colab with slight adjustments to paths.
 - The configuration is driven through `config.yaml` for consistent parameters.
+
+## Sources
+
+1. Tao, L., Hong, S., Lin, Y., Chen, Y., He, P. and Tie, Z. (2024). A Real-Time License Plate Detection and Recognition Model in Unconstrained Scenarios. Sensors, 24(9), 2791 
+2. Xu, Z.; Yang, W.; Meng, A.; Lu, N.; Huang, H.; Ying, C.; Huang, L. Towards end-to-end license plate detection and recognition: A large dataset and baseline. In Proceedings of the European Conference on Computer Vision (ECCV), Munich, Germany, 8–14 September 2018. 
+3. R. K. Prajapati, Y. Bhardwaj, R. K. Jain and D. Kamal Kant Hiran, ”A Review Paper on Automatic Num ber Plate Recognition using Machine Learning : An In-Depth Analysis of Machine Learning Techniques in Automatic Number Plate Recognition: Opportunities and Limitations,” 2023 International Conference on Computational Intelligence, Communication Technology and Networking (CICTN), Ghaziabad, India, 2023, pp. 527-532 
+4. https://github.com/detectRecog/CCPD
+5. https://github.com/ultralytics/yolov5
