@@ -76,6 +76,13 @@ yolo_dataset/
 
 ### 4. Train YOLOv5 Detection Model
 
+First, clone the yolov5 repository: https://github.com/ultralytics/yolov5 in the root of the project.
+
+```bash
+git clone https://github.com/ultralytics/yolov5
+```
+Then proceed to train the model:
+
 ```bash
 cd yolov5
 python train.py \
