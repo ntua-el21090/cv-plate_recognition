@@ -169,7 +169,7 @@ This trains the CRNN-CTC model on the dataset built in the previous step, using 
 python train_plate_classifier.py --config config.yaml
 ```
 
-This will create the folder plate_classifier/ with the best model trained which we'll use for evaluation.
+This will add to the directrory PDLPR/checkpoints/ the best model which we are going to use for evaluation.
 ---
 
 ## End-to-End Evaluation
